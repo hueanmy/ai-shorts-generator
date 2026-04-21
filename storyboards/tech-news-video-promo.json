@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "title": "tech-news-video — promo",
+    "slug": "tech-news-video-promo",
+    "theme": "default",
+    "mode": "promo",
+    "source": "https://github.com/hueanmy/tech-news-video",
+    "description": "Self-promo: tool tự dựng video cho mọi loại tin tức, review, và quảng bá website.",
+    "notes": "26s teaser. Broadened positioning (news + reviews + website promos)."
+  },
+  "scenes": [
+    {
+      "type": "hero-text",
+      "duration": 3,
+      "emoji": "⏱️",
+      "headline": "30 giây",
+      "accent": true,
+      "sub": "mọi URL → video hoàn chỉnh",
+      "caption": {
+        "en": "Any URL → MP4 in 30 seconds.",
+        "vi": "Dựng video tin tức hay quảng bá — quá mệt và tốn giờ?"
+      }
+    },
+    {
+      "type": "hero-text",
+      "duration": 7,
+      "emoji": "🎬",
+      "headline": "tech-news-video",
+      "accent": true,
+      "sub": "kể cả video này cũng vậy",
+      "caption": {
+        "en": "Even this video — made by the tool.",
+        "vi": "Công cụ tự động dựng video — kể cả video bạn đang xem cũng vậy!"
+      }
+    },
+    {
+      "type": "terminal",
+      "duration": 5,
+      "title": "you → paste URL",
+      "lines": [
+        { "type": "prompt", "text": "$ /news https://thehackernews.com/..." },
+        { "type": "prompt", "text": "$ /promo https://github.com/acme/tool" },
+        { "type": "prompt", "text": "$ /promo https://acme.com" },
+        { "type": "output", "text": "→ rendered 16:9 + 9:16 MP4 (28s each)" },
+        { "type": "output", "text": "→ voice muxed (ElevenLabs VI)" },
+        { "type": "success", "text": "# ready to post on every platform" }
+      ],
+      "caption": {
+        "en": "News. Repos. Websites. Paste URL — get video.",
+        "vi": "Dán URL bài báo, repo GitHub, hay website — nhận ngay video."
+      }
+    },
+    {
+      "type": "stats-grid",
+      "duration": 5,
+      "stats": [
+        { "big": "28s", "label": "per video", "accent": true },
+        { "big": "100+", "label": "videos / day" },
+        { "big": "16:9 + 9:16", "label": "both aspects" },
+        { "big": "VI", "label": "voice-over" }
+      ],
+      "caption": {
+        "en": "Made at scale for any topic, any platform.",
+        "vi": "Tạo hàng trăm video mỗi ngày, cho mọi chủ đề."
+      }
+    },
+    {
+      "type": "iframe",
+      "duration": 6,
+      "src": "/engine/embed-video.html?src=/output/2026-04-21-sglang-cve-2026-5760/sglang-cve-2026-5760-16x9-final.mp4",
+      "badge": "▶ example · SGLang CVE",
+      "caption": {
+        "en": "Example: a real video we generated from a news URL.",
+        "vi": "Ví dụ: video cảnh báo SGLang — dựng từ đúng 1 URL bài báo."
+      }
+    },
+    {
+      "type": "cta-url",
+      "duration": 5,
+      "label": "★ Follow @hueanmy ★",
+      "url": "hueanmy.github.io",
+      "sub": "TikTok · Shorts · LinkedIn · Blog",
+      "caption": {
+        "en": "Follow for daily news. Visit hueanmy.github.io.",
+        "vi": "Theo dõi mình, và truy cập hueanmy.github.io để xem thêm!"
+      }
+    }
+  ]
+}

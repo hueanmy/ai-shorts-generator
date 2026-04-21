@@ -18,6 +18,11 @@ if [ ! -f "$STORYBOARD_PATH" ]; then
   exit 1
 fi
 
+# Playwright test loads storyboard via http, so path must be project-root-relative.
+case "$STORYBOARD_PATH" in
+  /*) STORYBOARD_PATH="${STORYBOARD_PATH#$PROJECT_ROOT/}" ;;
+esac
+
 command -v ffmpeg >/dev/null || { echo "ffmpeg missing (brew install ffmpeg)"; exit 1; }
 command -v python3 >/dev/null || { echo "python3 missing (needed for http server)"; exit 1; }
 

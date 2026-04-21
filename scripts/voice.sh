@@ -87,7 +87,7 @@ for i in $(seq 1 "$N_SCENES"); do
         similarity_boost: 0.95,
         style: 0.0,
         use_speaker_boost: true,
-        speed: 1.1
+        speed: 1.0
       }
     };
     fs.writeFileSync(process.argv[3], JSON.stringify(body));
@@ -116,10 +116,21 @@ CONCAT=""
 for i in $(seq 1 "$N_SCENES"); do
   DUR=$(cat "$TMP_DIR/dur-$i.txt")
   [ -f "$TMP_DIR/clip$i.mp3" ] || { echo "missing clip$i.mp3" >&2; exit 1; }
+  CLIP_DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$TMP_DIR/clip$i.mp3")
+  # If clip longer than scene, speed up (cap at 1.3x) to avoid mid-word cut.
+  TEMPO=$(python3 -c "d=float('$CLIP_DUR'); s=float('$DUR'); print(f'{max(1.0, min(d/s, 1.3)):.4f}')")
   INPUTS="$INPUTS -i $TMP_DIR/clip$i.mp3"
   idx=$((i-1))
-  FILTER="${FILTER}[${idx}:a]atrim=end=${DUR},apad=whole_dur=${DUR},asetpts=PTS-STARTPTS[a${i}];"
+  if [ "$TEMPO" = "1.0000" ]; then
+    STEP="apad=whole_dur=${DUR}"
+    NOTE=""
+  else
+    STEP="atempo=${TEMPO},atrim=end=${DUR},apad=whole_dur=${DUR}"
+    NOTE=" [sped up ${TEMPO}x to fit]"
+  fi
+  FILTER="${FILTER}[${idx}:a]${STEP},asetpts=PTS-STARTPTS[a${i}];"
   CONCAT="${CONCAT}[a${i}]"
+  echo "  scene $i: clip=${CLIP_DUR}s → scene ${DUR}s${NOTE}"
 done
 FILTER="${FILTER}${CONCAT}concat=n=${N_SCENES}:v=0:a=1[out]"
 
