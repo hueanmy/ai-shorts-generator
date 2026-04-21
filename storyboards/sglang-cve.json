@@ -1,0 +1,91 @@
+{
+  "meta": {
+    "title": "SGLang CVE-2026-5760 — critical RCE",
+    "slug": "sglang-cve-2026-5760",
+    "theme": "danger",
+    "mode": "news",
+    "source": "https://thehackernews.com/2026/04/sglang-cve-2026-5760-cvss-98-enables.html",
+    "description": "Critical RCE in SGLang LLM serving framework via malicious GGUF model files (Jinja2 template injection). No patch available.",
+    "notes": "28-second news brief. Hook → stats → attack demo → fix diff → warning quote → CTA."
+  },
+  "scenes": [
+    {
+      "type": "hero-text",
+      "duration": 3,
+      "emoji": "⚠️",
+      "headline": "CVSS 9.8",
+      "accent": true,
+      "sub": "CVE-2026-5760 · SGLang",
+      "caption": {
+        "en": "Critical RCE in your AI infra.",
+        "vi": "Lỗ hổng nghiêm trọng trong framework phục vụ AI."
+      }
+    },
+    {
+      "type": "stats-grid",
+      "duration": 4,
+      "stats": [
+        { "big": "9.8", "label": "CVSS score", "accent": true },
+        { "big": "RCE", "label": "impact" },
+        { "big": "SGLang", "label": "affected" },
+        { "big": "0", "label": "official patch" }
+      ],
+      "caption": {
+        "en": "What's hit: SGLang — the LLM serving framework by lmsys.",
+        "vi": "Ai bị ảnh hưởng: SGLang, framework phục vụ LLM của lmsys — rất nhiều AI startup đang dùng."
+      }
+    },
+    {
+      "type": "terminal",
+      "duration": 6,
+      "title": "attacker → /v1/rerank",
+      "lines": [
+        { "type": "prompt", "text": "curl -X POST http://victim/v1/rerank \\" },
+        { "type": "prompt", "text": "  -d '{\"model\": \"./evil.gguf\"}'" },
+        { "type": "output", "text": "" },
+        { "type": "output", "text": "# SGLang loads model → reads tokenizer.chat_template" },
+        { "type": "output", "text": "# chat_template is a Jinja2 string:" },
+        { "type": "output", "text": "#   {{ ().__class__.__mro__[1].__subclasses__()..." },
+        { "type": "error",  "text": "# jinja2.Environment() renders it — UNSANDBOXED" },
+        { "type": "error",  "text": "$ whoami → root" }
+      ],
+      "caption": {
+        "en": "How: malicious model file triggers Jinja2 template injection.",
+        "vi": "Cơ chế: file model độc hại kích hoạt lỗ hổng Jinja2 khi được load qua /v1/rerank."
+      }
+    },
+    {
+      "type": "code-diff",
+      "duration": 6,
+      "badLabel": "✗ vulnerable",
+      "bad": "from jinja2 import Environment\n\nenv = Environment()\ntemplate = env.from_string(\n    tokenizer.chat_template\n)\n# arbitrary Python exec",
+      "goodLabel": "✓ fixed",
+      "good": "from jinja2.sandbox import \\\n    ImmutableSandboxedEnvironment\n\nenv = ImmutableSandboxedEnvironment()\ntemplate = env.from_string(\n    tokenizer.chat_template\n)\n# safe render",
+      "caption": {
+        "en": "The fix: swap Environment() for ImmutableSandboxedEnvironment.",
+        "vi": "Bản vá: đổi jinja2.Environment() sang ImmutableSandboxedEnvironment để cách ly thực thi."
+      }
+    },
+    {
+      "type": "quote",
+      "duration": 5,
+      "text": "No response or patch was obtained during the coordination process.",
+      "attr": "CERT/CC advisory",
+      "caption": {
+        "en": "⚠ No official patch yet — you must mitigate yourself.",
+        "vi": "Vendor chưa phát hành patch chính thức. Người triển khai phải tự vá."
+      }
+    },
+    {
+      "type": "cta-url",
+      "duration": 4,
+      "label": "★ audit your sglang deployment ★",
+      "url": "CVE-2026-5760",
+      "sub": "Find /v1/rerank · replace jinja2.Environment · block untrusted model files",
+      "caption": {
+        "en": "Stop loading untrusted models. Audit today.",
+        "vi": "Đừng load model không rõ nguồn. Kiểm tra hệ thống ngay hôm nay!"
+      }
+    }
+  ]
+}

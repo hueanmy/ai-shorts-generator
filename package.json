@@ -1,0 +1,14 @@
+{
+  "name": "tech-news-video",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Data-driven video generator: storyboard.json → 16:9 + 9:16 MP4. For daily tech-news clips and GitHub project promos.",
+  "scripts": {
+    "install:browsers": "playwright install chromium",
+    "render": "bash scripts/render.sh",
+    "record": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.0"
+  }
+}
