@@ -1,6 +1,6 @@
-# tech-news-video
+# ai-shorts-generator
 
-Data-driven video generator: write a `storyboard.json`, get **16:9 + 9:16 MP4s** ready for YouTube, Reels, TikTok, LinkedIn.
+AI-powered social shorts generator: turn any URL or piece of content into **16:9 + 9:16 MP4s** ready for YouTube Shorts, Reels, TikTok, LinkedIn.
 
 Two modes:
 
@@ -96,7 +96,7 @@ ffmpeg -i output/DATE-SLUG/SLUG-16x9.mp4 -i voice.mp3 \
 ## Project layout
 
 ```
-tech-news-video/
+ai-shorts-generator/
 ├── engine/render.html          # the renderer (HTML+CSS+JS, data-driven)
 ├── storyboards/*.json          # one per video
 ├── scripts/render.sh           # orchestration: record → convert → move

@@ -1,8 +1,8 @@
 {
-  "name": "tech-news-video",
+  "name": "ai-shorts-generator",
   "private": true,
   "version": "0.1.0",
-  "description": "Data-driven video generator: storyboard.json → 16:9 + 9:16 MP4. For daily tech-news clips and GitHub project promos.",
+  "description": "AI social shorts generator: turn any URL or content into 16:9 + 9:16 MP4s ready for TikTok, YouTube Shorts, Reels, and LinkedIn.",
   "scripts": {
     "install:browsers": "playwright install chromium",
     "render": "bash scripts/render.sh",

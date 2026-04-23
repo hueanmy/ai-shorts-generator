@@ -1,10 +1,10 @@
 {
   "meta": {
-    "title": "tech-news-video — promo",
-    "slug": "tech-news-video-promo",
+    "title": "ai-shorts-generator — promo",
+    "slug": "ai-shorts-generator-promo",
     "theme": "default",
     "mode": "promo",
-    "source": "https://github.com/hueanmy/tech-news-video",
+    "source": "https://github.com/hueanmy/ai-shorts-generator",
     "description": "Self-promo: tool tự dựng video cho mọi loại tin tức, review, và quảng bá website.",
     "notes": "26s teaser. Broadened positioning (news + reviews + website promos)."
   },
@@ -25,7 +25,7 @@
       "type": "hero-text",
       "duration": 7,
       "emoji": "🎬",
-      "headline": "tech-news-video",
+      "headline": "ai-shorts-generator",
       "accent": true,
       "sub": "kể cả video này cũng vậy",
       "caption": {
