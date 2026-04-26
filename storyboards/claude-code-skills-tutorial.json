@@ -1,0 +1,91 @@
+{
+  "meta": {
+    "title": "Skill trong Claude: dùng để làm gì và build thế nào",
+    "slug": "claude-code-skills-tutorial",
+    "theme": "success",
+    "mode": "tutorial",
+    "source": "https://code.claude.com/docs/en/skills",
+    "description": "Chia sẻ cách dùng Skills trong Claude Code: mục đích, cách build và tiêu chí để skill hoạt động hiệu quả."
+  },
+  "scenes": [
+    {
+      "type": "hero-text",
+      "duration": 3,
+      "emoji": "⚡",
+      "headline": "SKILL TRONG CLAUDE",
+      "accent": true,
+      "sub": "Dùng để làm gì, build sao và làm sao cho hiệu quả?",
+      "caption": {
+        "en": "What Skills are for and how to build them.",
+        "vi": "Nếu bạn hay lặp lại một quy trình, bạn nên đóng gói nó thành skill."
+      }
+    },
+    {
+      "type": "stats-grid",
+      "duration": 4,
+      "stats": [
+        { "big": "Dùng để", "label": "Tự động hóa việc lặp lại", "accent": true },
+        { "big": "Giảm lỗi", "label": "Làm đúng checklist mỗi lần" },
+        { "big": "Nhanh hơn", "label": "Không cần paste prompt dài" },
+        { "big": "Đồng nhất", "label": "Cả team cùng một quy trình" }
+      ],
+      "caption": {
+        "en": "Skills turn repeated prompts into reusable workflows.",
+        "vi": "Skill là cách biến prompt dài thành quy trình gọi bằng một lệnh ngắn."
+      }
+    },
+    {
+      "type": "terminal",
+      "duration": 6,
+      "title": "Build skill trong 3 bước",
+      "lines": [
+        { "type": "prompt", "text": "$ mkdir -p ~/.claude/skills/review-pr" },
+        { "type": "prompt", "text": "$ vim ~/.claude/skills/review-pr/SKILL.md" },
+        { "type": "output", "text": "name: review-pr" },
+        { "type": "output", "text": "description: review PR theo checklist" },
+        { "type": "output", "text": "instructions: input -> check -> output" },
+        { "type": "prompt", "text": "$ /review-pr 123" },
+        { "type": "success", "text": "Done: danh sách risk + đề xuất fix" }
+      ],
+      "caption": {
+        "en": "Create folder, write SKILL.md, invoke with slash command.",
+        "vi": "Chỉ cần thư mục skill và file SKILL.md là bạn có thể chạy ngay."
+      }
+    },
+    {
+      "type": "stats-grid",
+      "duration": 6,
+      "stats": [
+        { "big": "Rõ trigger", "label": "description nêu đúng ngữ cảnh", "accent": true },
+        { "big": "Rõ output", "label": "có format mẫu kết quả" },
+        { "big": "Guardrails", "label": "có giới hạn tool và rủi ro" },
+        { "big": "Đo được", "label": "có tiêu chí pass-fail" }
+      ],
+      "caption": {
+        "en": "Effective skills are specific, structured, and measurable.",
+        "vi": "Skill hiệu quả là skill có trigger rõ, output rõ và tiêu chí đánh giá rõ."
+      }
+    },
+    {
+      "type": "quote",
+      "duration": 4,
+      "text": "Mẹo nhỏ: Dùng 1 skill cho 1 việc cụ thể. Dùng nhiều skill nhỏ sẽ dễ bảo trì hơn 1 skill quá to.",
+      "attr": "Kinh nghiệm triển khai thực tế",
+      "caption": {
+        "en": "One skill, one clear job. Keep it focused.",
+        "vi": "Hãy tách nhỏ để sửa nhanh, test nhanh và tái sử dụng cao hơn."
+      }
+    },
+    {
+      "type": "cta-url",
+      "duration": 4,
+      "label": "Bắt đầu bằng 1 skill đơn giản",
+      "url": "https://code.claude.com/docs/en/skills",
+      "sub": "Thử skill review-pr hoặc summarize-ticket ngay hôm nay",
+      "caption": {
+        "en": "Start simple, iterate weekly, and keep improving.",
+        "vi": "Bắt đầu từ một bài toán nhỏ, sau đó tối ưu dần mỗi tuần."
+      }
+    }
+  ]
+}
