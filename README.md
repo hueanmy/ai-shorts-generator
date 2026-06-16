@@ -72,26 +72,73 @@ Supported scene types and all fields live in [engine/render.html](engine/render.
 
 ## Adding voice-over
 
-The video has no audio. To add ElevenLabs narration:
+The rendered video has no audio. `scripts/voice.sh` generates narration and muxes
+it in automatically. It supports two TTS providers, selected with `VOICE_PROVIDER`
+(default `elevenlabs`) — the output pipeline is identical either way.
+
+### Inputs (in the output dir)
+
+The script reads these from `output/YYYY-MM-DD-<slug>/`:
+
+- `storyboard.json` — for per-scene `duration` (copied here by `render.sh`)
+- `script.txt` — the narration script, split per scene with `[Scene N]` markers
+- `<slug>-16x9.mp4` / `<slug>-9x16.mp4` — the silent videos to mux into
+
+> `render.sh` does **not** create `script.txt` — add it yourself (or have Claude
+> draft it) before running the voice step.
+
+### ElevenLabs (default)
 
 ```bash
-# Generate 6 clips on ElevenLabs (one per scene), save clip1.mp3 … clip6.mp3
-# Pad each to scene duration and concatenate:
-ffmpeg -i clip1.mp3 -i clip2.mp3 ... \
-  -filter_complex "\
-    [0:a]apad=whole_dur=3[a1];\
-    [1:a]apad=whole_dur=4[a2];\
-    [2:a]apad=whole_dur=5[a3];\
-    [3:a]apad=whole_dur=6[a4];\
-    [4:a]apad=whole_dur=4[a5];\
-    [5:a]apad=whole_dur=4[a6];\
-    [a1][a2][a3][a4][a5][a6]concat=n=6:v=0:a=1[out]" \
-  -map "[out]" voice.mp3
-
-# Mux into the video:
-ffmpeg -i output/DATE-SLUG/SLUG-16x9.mp4 -i voice.mp3 \
-  -c:v copy -c:a aac -shortest output/DATE-SLUG/SLUG-16x9-final.mp4
+ELEVENLABS_API_KEY=xxx bash scripts/voice.sh output/YYYY-MM-DD-<slug>/
 ```
+
+### 60db
+
+```bash
+VOICE_PROVIDER=60db SIXTYDB_API_KEY=xxx bash scripts/voice.sh output/YYYY-MM-DD-<slug>/
+```
+
+Find a 60db `voice_id` from `curl https://api.60db.ai/myvoices -H "Authorization: Bearer $SIXTYDB_API_KEY"`.
+
+### Config (env vars or `.env.local`, which is auto-sourced)
+
+| Variable | Provider | Default | Notes |
+|----------|----------|---------|-------|
+| `VOICE_PROVIDER` | both | `elevenlabs` | `elevenlabs` or `60db` |
+| `ELEVENLABS_API_KEY` | elevenlabs | — | required |
+| `ELEVENLABS_VOICE_ID` | elevenlabs | `JfznbVXrGXYh0gZo9Lcp` | |
+| `ELEVENLABS_MODEL` | elevenlabs | `eleven_turbo_v2_5` | |
+| `SIXTYDB_API_KEY` | 60db | — | required |
+| `SIXTYDB_VOICE_ID` | 60db | `fbb75ed2-…-38e30524a9a1` | from `/myvoices` |
+
+Example `.env.local`:
+
+```bash
+VOICE_PROVIDER=60db
+SIXTYDB_API_KEY=sk_live_...
+SIXTYDB_VOICE_ID=<your-uuid>
+```
+
+### What it outputs
+
+Per scene, it calls the provider's TTS API, fits each clip to its scene `duration`
+(pads short clips, speeds up over-long ones up to 1.3×), concatenates to `voice.mp3`,
+then muxes into both aspect ratios:
+
+- `output/YYYY-MM-DD-<slug>/voice.mp3`
+- `output/YYYY-MM-DD-<slug>/<slug>-16x9-final.mp4`
+- `output/YYYY-MM-DD-<slug>/<slug>-9x16-final.mp4`
+
+### How the providers differ (handled internally)
+
+| | ElevenLabs | 60db |
+|---|---|---|
+| Endpoint | `POST /v1/text-to-speech/{voice_id}` | `POST /tts-synthesize` (REST, non-streaming) |
+| Auth | `xi-api-key:` header | `Authorization: Bearer` header |
+| Response | raw MP3 bytes | JSON with base64 audio (decoded to MP3) |
+
+Both produce identical `clip<n>.mp3` files, so timing, concat, and mux are shared.
 
 ## Project layout
 
